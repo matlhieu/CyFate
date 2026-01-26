@@ -4,33 +4,39 @@
 
 public class Level {
     private static char[][] wall;
-    private static final int length = 20;
-    private static final int width = 20;
+    private int length;
+    private int width;
+    private int numberlevel = 1;
 
-    public Level(String level){
+    public Level(int length, int width){
         wall = new char[length][width];
         for(int i = 0; i < length; i++){
             for(int j = 0 ; j < width;j++){
-                wall[i][j] = level.charAt(i);
-
+                if(i == 0 || j == 0 || i == length-1 || j == width-1){
+                    wall[i][j] = '#';
+                }
+                else wall[i][j] = ' ';
             }
         }
     }
 
     public void generateLevel(char[][] level) {
+        System.out.println("------------ Level " + numberlevel + "------------");
         for(int i = 0; i < length; i++) {
             for (int j = 0; j < width; j++) {
                 level[i][j] = wall[i][j];
-                System.out.print(level[i][j] + " ");
+                System.out.print(level[i][j]+ " ");
             }
+            System.out.println();
         }
+        numberlevel++;
     }
 
 
+
     public static void main(String[] args){
-        System.out.println("Level 1");
-        Level level1 = new Level("level 1");
-        level1.generateLevel(wall);
+        Level level = new Level();
+        level.generateLevel(wall);
 
 
     }
