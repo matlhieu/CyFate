@@ -3,12 +3,14 @@
  */
 
 public class Level {
-    private static char[][] wall;
+    private char[][] wall;
     private int length;
     private int width;
     private int numberlevel = 1;
 
     public Level(int length, int width){
+        this.length = length;
+        this.width = width;
         wall = new char[length][width];
         for(int i = 0; i < length; i++){
             for(int j = 0 ; j < width;j++){
@@ -20,12 +22,11 @@ public class Level {
         }
     }
 
-    public void generateLevel(char[][] level) {
+    public void generateLevel() {
         System.out.println("------------ Level " + numberlevel + "------------");
         for(int i = 0; i < length; i++) {
             for (int j = 0; j < width; j++) {
-                level[i][j] = wall[i][j];
-                System.out.print(level[i][j]+ " ");
+                System.out.print(wall[i][j]+ " ");
             }
             System.out.println();
         }
@@ -35,8 +36,8 @@ public class Level {
 
 
     public static void main(String[] args){
-        Level level = new Level();
-        level.generateLevel(wall);
+        Level level = new Level(12, 12);
+        level.generateLevel();
 
 
     }
