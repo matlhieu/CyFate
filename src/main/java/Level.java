@@ -13,6 +13,10 @@ public class Level {
     private int pX;
     int pY;
 
+    private enum Direction {
+        UP, DOWN, LEFT, RIGHT;
+    }
+
     public Level(int length, int width, Player player, int x, int y) {
         this.length = length;
         this.width = width;
@@ -62,27 +66,62 @@ public class Level {
         numberlevel++;
     }
 
-    public void directionPlayer() {
+    public void movePlayer() {
         Scanner input = new Scanner(System.in);
-        System.out.println("Direction ?: ");
-        String direction = input.next();
+        System.out.println("Movement Direction (zqsd) : ");
+        String direction = input.next().toLowerCase();
+
+        Direction d = null;
+
         switch (direction) {
             case "z":
-                pX -= 1;
+                d = Direction.UP;
                 break;
             case "s":
-                pX += 1;
+                d = Direction.DOWN;
                 break;
             case "q":
-                pY -= 1;
+                d = Direction.LEFT;
                 break;
             case "d":
-                pY += 1;
+                d = Direction.RIGHT;
                 break;
             default:
+                System.out.println("Error : Invalid direction");
                 break;
 
         }
+        int nextX = pX;
+        int nextY = pY;
+
+        switch (d) {
+            case UP:
+                nextX -= 1;
+                break;
+            case DOWN:
+                nextX += 1;
+                break;
+            case LEFT:
+                nextY -= 1;
+                break;
+            case RIGHT:
+                nextY += 1;
+                break;
+            default:
+                System.out.println("Error : Invalid direction");
+                break;
+        }
+        if (nextX >= 0 && nextX < length && nextY >= 0 && nextY < width) {
+            if (maze[nextX][nextY] != '#') {
+                pX = nextX;
+                pY = nextY;
+            } else {
+                System.err.println("A wall is on the path");
+            }
+        } else {
+            System.err.println("Out of boundaries of the map");
+        }
+
     }
 
 
@@ -94,10 +133,9 @@ public class Level {
 
         for (int i = 0; i < 10; i++) {
             level1.generateLevel();
-            level1.directionPlayer();
+            level1.movePlayer();
 
         }
-
 
 
     }
