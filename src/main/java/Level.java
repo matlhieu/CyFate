@@ -1,60 +1,53 @@
-/**
- * @author : Mathieu
- */
-
 import java.util.Scanner;
 
 public class Level {
     private final char[][] maze;
-    private final int length;
-    private final int width;
+    private final int rows;
+    private final int cols;
     private static int numberlevel = 1;
     private Player player;
     private int pX;
-    int pY;
+    private int pY;
 
     private enum Direction {
         UP, DOWN, LEFT, RIGHT;
     }
 
-    public Level(int length, int width, Player player, int x, int y) {
-        this.length = length;
-        this.width = width;
-        this.maze = new char[length][width];
+    public Level(int rows, int cols, Player player, int x, int y) {
+        this.rows = rows;
+        this.cols = cols;
+        this.maze = new char[rows][cols];
 
-        for (int i = 0; i < length; i++) {
-            for (int j = 0; j < width; j++) {
-                if (i == 0 || j == 0 || i == length - 1 || j == width - 1) { // add maze only on the border
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (i == 0 || j == 0 || i == rows - 1 || j == cols - 1) {
                     maze[i][j] = '#';
-                } else maze[i][j] = ' ';                                 //Empty the interior
+                } else {
+                    maze[i][j] = ' ';
+                }
             }
         }
 
-        if (x < 0 || x >= length || y < 0 || y >= width) {
+        if (y < 0 || y >= rows || x < 0 || x >= cols) {
             throw new RuntimeException("Error : Player out of limits");
         }
-        if (maze[x][y] == '#') {
-            throw new RuntimeException("Error : Player can't be place on a wall");
+        if (maze[y][x] == '#') {
+            throw new RuntimeException("Error : Player can't be placed on a wall");
         }
         if (player == null) {
             throw new RuntimeException("Error : no player found");
         }
+
         this.player = player;
         this.pX = x;
         this.pY = y;
     }
 
-    public void addObstacle(int x, int y) {
-        if (x > 0 && x < length - 1 && y > 0 && y < width - 1) {
-            maze[x][y] = '#';
-        }
-    }
-
     public void generateLevel() {
         System.out.println("\n------------ Level " + numberlevel + "------------");
-        for (int i = 0; i < length; i++) {
-            for (int j = 0; j < width; j++) {
-                if (i == pX && j == pY) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (i == pY && j == pX) {
                     System.out.print("1 ");
                 } else {
                     System.out.print(maze[i][j] + " ");
@@ -66,6 +59,15 @@ public class Level {
         numberlevel++;
     }
 
+    public void addObstacle(int x, int y, int obstacle_length) {
+        for (int i = 0; i < obstacle_length; i++) {
+            if ((y > 0 && y < rows - 1 && x > 0 && x < cols - 1) && !(x == pX && y == pY)) {
+                maze[y][x] = '#';
+            }
+            y++;
+        }
+    }
+
     public void movePlayer() {
         Scanner input = new Scanner(System.in);
         System.out.println("Movement Direction (zqsd) : ");
@@ -74,45 +76,27 @@ public class Level {
         Direction d = null;
 
         switch (direction) {
-            case "z":
-                d = Direction.UP;
-                break;
-            case "s":
-                d = Direction.DOWN;
-                break;
-            case "q":
-                d = Direction.LEFT;
-                break;
-            case "d":
-                d = Direction.RIGHT;
-                break;
+            case "z": d = Direction.UP; break;
+            case "s": d = Direction.DOWN; break;
+            case "q": d = Direction.LEFT; break;
+            case "d": d = Direction.RIGHT; break;
             default:
                 System.out.println("Error : Invalid direction");
-                break;
-
+                return;
         }
+
         int nextX = pX;
         int nextY = pY;
 
         switch (d) {
-            case UP:
-                nextX -= 1;
-                break;
-            case DOWN:
-                nextX += 1;
-                break;
-            case LEFT:
-                nextY -= 1;
-                break;
-            case RIGHT:
-                nextY += 1;
-                break;
-            default:
-                System.out.println("Error : Invalid direction");
-                break;
+            case UP:    nextY -= 1; break;
+            case DOWN:  nextY += 1; break;
+            case LEFT:  nextX -= 1; break;
+            case RIGHT: nextX += 1; break;
         }
-        if (nextX >= 0 && nextX < length && nextY >= 0 && nextY < width) {
-            if (maze[nextX][nextY] != '#') {
+
+        if (nextY >= 0 && nextY < rows && nextX >= 0 && nextX < cols) {
+            if (maze[nextY][nextX] != '#') {
                 pX = nextX;
                 pY = nextY;
             } else {
@@ -121,23 +105,17 @@ public class Level {
         } else {
             System.err.println("Out of boundaries of the map");
         }
-
     }
-
 
     public static void main(String[] args) {
         Player alice = new Player("Alice");
 
-        Level level1 = new Level(10, 12, alice, 5, 8);
-        level1.addObstacle(2, 5);
+        Level level1 = new Level(7, 12, alice, 8, 2);
+        level1.addObstacle(8, 1, 6);
 
-        for (int i = 0; i < 10; i++) {
+        while (true) {
             level1.generateLevel();
             level1.movePlayer();
-
         }
-
-
     }
-
 }
