@@ -111,7 +111,7 @@ public class Level {
         Player alice = new Player("Alice");
 
         Level level1 = new Level(8, 13, alice, 8, 2);
-        level1.addObstacle(8, 1, 3);
+        level1.addObstacle(8, 1, 5);
 
         while (true) {
             level1.generateLevel();
