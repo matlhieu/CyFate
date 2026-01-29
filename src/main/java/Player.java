@@ -1,91 +1,90 @@
 /**
- * @author : Mathieu
+ * Represents a player.
+ * @author Mathieu
  */
-
-public class Player{
+public class Player {
 
     private final String name;
     private int score;
     private static int count = 0;
-    private static final int MAX_PLAYERS = 100;
-    private static Player[] allPlayers = new Player[MAX_PLAYERS];
 
-    /**.
-     * @param name Name of player
+    /**
+     * Constructor with name.
+     * @param name Player's name
      */
-
-    public Player(String name){         //Player struct
+    public Player(String name) {
         this.name = name;
         this.score = 0;
-        if (count < MAX_PLAYERS) {
-            allPlayers[count] = this;
-            System.out.println("New player " + this.toString());
-            count++;
-        } else {
-            System.err.println("Error : Max capacity");
-        }
+        count++;
     }
 
-    public String getName(){
+    /**
+     * Default constructor.
+     */
+    public Player() {
+        this("Player" + (count + 1));
+    }
+
+    // --- Getters ---
+
+    public String getName() {
         return name;
     }
-    public int getScore(){
+
+    public int getScore() {
         return score;
     }
 
-    public void addScore(int scores){          //Add score to the player
-        this.score += scores;
+    public static int getCount() {
+        return count;
     }
 
-    public int subScore(int scores){        //Sub score to the player
-        if (this.score - scores < 0){
+    // --- Methods ---
+
+    /**
+     * Add points to score.
+     * @param points points to add (can be negative)
+     */
+    public void addScore(int points) {
+        this.score += points;
+        if (this.score < 0) {
+            this.score = 0; // Prevent negative score
+        }
+    }
+
+    /**
+     * Remove points from score
+     * @param points points to remove
+     */
+    public void subScore(int points) {
+        this.score -= points;
+        if (this.score < 0) {
             this.score = 0;
-            return this.score;
-        } else {
-            return this.score -= scores;
         }
     }
 
-    public String toString(){               //Level 4 : Show Name and Score
-        if (this.score == 0 || this.score == 1){
-            return this.name + " : " + this.score +" pt";
-        }else {
-            return this.name + " : " + this.score +" pts";
-        }
-    }
-
-    public static void getCount(){       //Level 5
-        System.out.println("Number of player : " + count);
+    /**
+     * Player info
+     * @return String format
+     */
+    @Override
+    public String toString() {
+        return name + " : " + score + (score > 1 ? " pts" : " pt");
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(!(obj instanceof Player)){
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Player)){
             return false;
         }
-
         Player other = (Player) obj;
-
-        if (this.name == null) {
-            return other.name == null;
-        }
-        return this.name.equalsIgnoreCase(other.name);
-
+        return this.name != null && this.name.equalsIgnoreCase(other.name);
     }
 
-    public Player(){
-        this("Joueur"+(count+1));
-    }
+    // --- Main ---
 
-    public static void showPlayers(){
-        System.out.println("\n--- Player List ---");
-        for (int i = 0; i < count; i++){
-            System.out.println("~ "+ allPlayers[i].toString());
-        }
-    }
-
-    public static void main(String[] args){
-        Player.getCount();
+    public static void main(String[] args) {
+        System.out.println("Total created: " + Player.getCount());
 
         Player alice = new Player("Alice");            //Create a player with name : Alice
         Player bob = new Player("Bob");
@@ -98,7 +97,7 @@ public class Player{
         System.out.println("\nModification\n");
 
         alice.addScore(1);
-        bob.addScore(2);
+        bob.addScore(-2); // Test
 
         System.out.println(alice);
         System.out.println(bob);
@@ -116,9 +115,7 @@ public class Player{
         Player p3 = new Player();
         Player p4 = new Player();
 
-        Player.showPlayers();
-        Player.getCount();
 
-        alice = null; //Garbage
+        System.out.println("\nTotal created: " + Player.getCount());
     }
 }
