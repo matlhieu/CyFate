@@ -110,8 +110,8 @@ public class Level {
     public static void main(String[] args) {
         Player alice = new Player("Alice");
 
-        Level level1 = new Level(7, 12, alice, 8, 2);
-        level1.addObstacle(8, 1, 6);
+        Level level1 = new Level(8, 13, alice, 8, 2);
+        level1.addObstacle(8, 1, 3);
 
         while (true) {
             level1.generateLevel();
