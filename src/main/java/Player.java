@@ -110,12 +110,17 @@ public class Player {
         System.out.println("Alice equals Bob : " + alice.equals(bob));
         System.out.println("Bob equals BOB : " + bob.equals(bobUpper));
         System.out.println("Bob == BOB : " + (bob == bobUpper));
-        System.out.println("Bob == b : " + (bob == b));
+        System.out.println("Bob == b : " + (bob == b) + "\n");
 
         Player p3 = new Player();
         Player p4 = new Player();
 
 
+        System.out.println(alice);
+        System.out.println(bob);
+        System.out.println(bobUpper);
+        System.out.println(p3);
+        System.out.println(p4);
         System.out.println("\nTotal created: " + Player.getCount());
     }
 }

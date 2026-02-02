@@ -1,5 +1,6 @@
 import java.util.Scanner;
 
+
 public class Level {
     private final char[][] maze;
     private final int rows;
@@ -117,5 +118,7 @@ public class Level {
             level1.generateLevel();
             level1.movePlayer();
         }
+
+
     }
 }
