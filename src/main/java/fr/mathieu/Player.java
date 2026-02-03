@@ -1,7 +1,7 @@
 package fr.mathieu;
 
 /**
- * Represents a player.
+ * Represents a player
  * @author Mathieu
  */
 public class Player {
