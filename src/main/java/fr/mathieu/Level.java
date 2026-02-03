@@ -1,10 +1,15 @@
-import java.util.Scanner;
+package fr.mathieu;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Scanner;
+import java.nio.file.Path;
+import java.nio.file.Files;
 
 public class Level {
-    private final char[][] maze;
-    private final int rows;
-    private final int cols;
+    private char[][] maze;
+    private int rows;
+    private int cols;
     private static int numberlevel = 1;
     private Player player;
     private int pX;
@@ -14,38 +19,37 @@ public class Level {
         UP, DOWN, LEFT, RIGHT;
     }
 
-    public Level(int rows, int cols, Player player, int x, int y) {
-        this.rows = rows;
-        this.cols = cols;
-        this.maze = new char[rows][cols];
+    public Level(Player player) {
+        this.player = player;
+        Path path = Path.of("C:\\Users\\cytech\\IdeaProjects\\CyFate\\Layout.txt");
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (i == 0 || j == 0 || i == rows - 1 || j == cols - 1) {
-                    maze[i][j] = '#';
-                } else {
-                    maze[i][j] = ' ';
+        try {
+            List<String> lines = Files.readAllLines(path);
+            this.rows = lines.size();
+            this.cols = lines.get(0).length();
+            this.maze = new char[rows][cols];
+
+            for (int i = 0; i < rows; i++) {
+                String line = lines.get(i);
+                for (int j = 0; j < cols; j++) {
+                    char c = line.charAt(j);
+                    if (c == '1' || c == 'P') {
+                        this.pX = j;
+                        this.pY = i;
+                        this.maze[i][j] = ' ';
+                    } else {
+                        maze[i][j] = c;
+                    }
                 }
             }
+        } catch (IOException e){
+            System.err.println("Error reading file : " + e.getMessage());
+            System.exit(1);
         }
-
-        if (y < 0 || y >= rows || x < 0 || x >= cols) {
-            throw new RuntimeException("Error : Player out of limits");
-        }
-        if (maze[y][x] == '#') {
-            throw new RuntimeException("Error : Player can't be placed on a wall");
-        }
-        if (player == null) {
-            throw new RuntimeException("Error : no player found");
-        }
-
-        this.player = player;
-        this.pX = x;
-        this.pY = y;
     }
 
     public void generateLevel() {
-        System.out.println("\n------------ Level " + numberlevel + "------------");
+        System.out.println("\n------------ fr.mathieu.Level " + numberlevel + "------------");
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (i == pY && j == pX) {
@@ -56,7 +60,7 @@ public class Level {
             }
             System.out.println();
         }
-        System.out.println("[Player] " + player.toString() + " | Position : [" + pX + "][" + pY + "]");
+        System.out.println("[fr.mathieu.Player] " + player.toString() + " | Position : [" + pX + "][" + pY + "]");
         numberlevel++;
     }
 
@@ -111,8 +115,7 @@ public class Level {
     public static void main(String[] args) {
         Player alice = new Player("Alice");
 
-        Level level1 = new Level(8, 13, alice, 8, 2);
-        level1.addObstacle(8, 1, 5);
+        Level level1 = new Level(alice);
 
         while (true) {
             level1.generateLevel();
@@ -120,5 +123,23 @@ public class Level {
         }
 
 
+
+
     }
 }
+
+/*
+            if (y < 0 || y >= rows || x < 0 || x >= cols) {
+                throw new RuntimeException("Error : fr.mathieu.Player out of limits");
+            }
+            if (maze[y][x] == '#') {
+                throw new RuntimeException("Error : fr.mathieu.Player can't be placed on a wall");
+            }
+            if (player == null) {
+                throw new RuntimeException("Error : no player found");
+            }
+
+            this.player = player;
+            this.pX = x;
+            this.pY = y;
+*/

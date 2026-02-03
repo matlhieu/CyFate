@@ -1,3 +1,5 @@
+package fr.mathieu;
+
 /**
  * Represents a player.
  * @author Mathieu
@@ -10,7 +12,7 @@ public class Player {
 
     /**
      * Constructor with name
-     * @param name Player's name
+     * @param name fr.mathieu.Player's name
      */
     public Player(String name) {
         this.name = name;
@@ -22,13 +24,13 @@ public class Player {
      * Default constructor
      */
     public Player() {
-        this("Player" + (count + 1));
+        this("fr.mathieu.Player" + (count + 1));
     }
 
     // --- Getters ---
 
     /**
-     * Get Player Name
+     * Get fr.mathieu.Player Name
      * @return String format
      */
     public String getName() {
@@ -36,7 +38,7 @@ public class Player {
     }
 
     /**
-     * Get Player Score
+     * Get fr.mathieu.Player Score
      * @return Current score
      */
 
@@ -77,7 +79,7 @@ public class Player {
     }
 
     /**
-     * Player info
+     * fr.mathieu.Player info
      * @return String format
      */
     @Override
@@ -120,7 +122,7 @@ public class Player {
         System.out.println(alice);
         System.out.println(bob);
 
-        //Level 5 Part
+        //fr.mathieu.Level 5 Part
         Player bobUpper = new Player("BOB");
         Player b = bob;
 
