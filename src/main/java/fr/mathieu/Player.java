@@ -1,3 +1,4 @@
+package fr.mathieu;
 /**
  * Represents a player
  * @author Mathieu
