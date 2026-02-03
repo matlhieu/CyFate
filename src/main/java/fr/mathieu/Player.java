@@ -106,7 +106,7 @@ public class Player {
         Player alice = new Player("Alice");            //Create a player with name : Alice
         Player bob = new Player("Bob");
 
-        System.out.println("Game is starting...\n");
+        System.out.println("Game is starting... \n");
 
         System.out.println(alice);
         System.out.println(bob);
