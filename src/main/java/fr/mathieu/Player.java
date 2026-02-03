@@ -12,7 +12,7 @@ public class Player {
 
     /**
      * Constructor with name
-     * @param name fr.mathieu.Player's name
+     * @param name Player's name
      */
     public Player(String name) {
         this.name = name;
@@ -24,13 +24,13 @@ public class Player {
      * Default constructor
      */
     public Player() {
-        this("fr.mathieu.Player" + (count + 1));
+        this("Player" + (count + 1));
     }
 
     // --- Getters ---
 
     /**
-     * Get fr.mathieu.Player Name
+     * Get Player Name
      * @return String format
      */
     public String getName() {
@@ -38,10 +38,9 @@ public class Player {
     }
 
     /**
-     * Get fr.mathieu.Player Score
+     * Get Player Score
      * @return Current score
      */
-
     public int getScore() {
         return score;
     }
@@ -79,7 +78,7 @@ public class Player {
     }
 
     /**
-     * fr.mathieu.Player info
+     * Player info
      * @return String format
      */
     @Override
@@ -122,7 +121,7 @@ public class Player {
         System.out.println(alice);
         System.out.println(bob);
 
-        //fr.mathieu.Level 5 Part
+        //Level 5 Part
         Player bobUpper = new Player("BOB");
         Player b = bob;
 

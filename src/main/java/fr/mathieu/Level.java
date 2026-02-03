@@ -49,7 +49,7 @@ public class Level {
     }
 
     public void generateLevel() {
-        System.out.println("\n------------ fr.mathieu.Level " + numberlevel + "------------");
+        System.out.println("\n------------ Level " + numberlevel + "------------");
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (i == pY && j == pX) {
@@ -60,7 +60,7 @@ public class Level {
             }
             System.out.println();
         }
-        System.out.println("[fr.mathieu.Player] " + player.toString() + " | Position : [" + pX + "][" + pY + "]");
+        System.out.println("[Player] " + player.toString() + " | Position : [" + pX + "][" + pY + "]");
         numberlevel++;
     }
 
@@ -130,10 +130,10 @@ public class Level {
 
 /*
             if (y < 0 || y >= rows || x < 0 || x >= cols) {
-                throw new RuntimeException("Error : fr.mathieu.Player out of limits");
+                throw new RuntimeException("Error : Player out of limits");
             }
             if (maze[y][x] == '#') {
-                throw new RuntimeException("Error : fr.mathieu.Player can't be placed on a wall");
+                throw new RuntimeException("Error : Player can't be placed on a wall");
             }
             if (player == null) {
                 throw new RuntimeException("Error : no player found");
