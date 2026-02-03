@@ -9,7 +9,7 @@ public class Player {
     private static int count = 0;
 
     /**
-     * Constructor with name.
+     * Constructor with name
      * @param name Player's name
      */
     public Player(String name) {
@@ -19,7 +19,7 @@ public class Player {
     }
 
     /**
-     * Default constructor.
+     * Default constructor
      */
     public Player() {
         this("Player" + (count + 1));
@@ -27,14 +27,27 @@ public class Player {
 
     // --- Getters ---
 
+    /**
+     * Get Player Name
+     * @return String format
+     */
     public String getName() {
         return name;
     }
+
+    /**
+     * Get Player Score
+     * @return Current score
+     */
 
     public int getScore() {
         return score;
     }
 
+    /**
+     * Get Total Number of players
+     * @return Global count
+     */
     public static int getCount() {
         return count;
     }
@@ -42,8 +55,8 @@ public class Player {
     // --- Methods ---
 
     /**
-     * Add points to score.
-     * @param points points to add (can be negative)
+     * Add points to score
+     * @param points points to add
      */
     public void addScore(int points) {
         this.score += points;
@@ -72,6 +85,11 @@ public class Player {
         return name + " : " + score + (score > 1 ? " pts" : " pt");
     }
 
+    /**
+     * Checks equality based on name
+     * @param obj Object to compare
+     * @return true if names are identical
+     **/
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Player)){
