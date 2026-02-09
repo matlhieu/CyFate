@@ -21,27 +21,40 @@ public class Level {
 
     public Level(Player player) {
         this.player = player;
-        Path path = Path.of("C:\\Users\\cytech\\IdeaProjects\\CyFate\\Layout.txt");
+        Path path = Path.of("Layout.txt");
 
         try {
             List<String> lines = Files.readAllLines(path);
+
+            if (lines.isEmpty()) throw new RuntimeException("File is empty");
             this.rows = lines.size();
             this.cols = lines.get(0).length();
             this.maze = new char[rows][cols];
 
+            boolean playerFound = false;
+
             for (int i = 0; i < rows; i++) {
                 String line = lines.get(i);
+                int limit = Math.min(line.length(), cols);
+
                 for (int j = 0; j < cols; j++) {
-                    char c = line.charAt(j);
-                    if (c == '1' || c == 'P') {
+                    char c = (j < limit) ? line.charAt(j) : ' ';
+
+                    if (c == '1') {
                         this.pX = j;
                         this.pY = i;
                         this.maze[i][j] = ' ';
+                        playerFound = true;
                     } else {
-                        maze[i][j] = c;
+                        this.maze[i][j] = c;
                     }
                 }
             }
+
+            if (!playerFound) {
+                throw new RuntimeException("Player not found in the file");
+            }
+
         } catch (IOException e){
             System.err.println("Error reading file : " + e.getMessage());
             System.exit(1);
@@ -49,7 +62,7 @@ public class Level {
     }
 
     public void generateLevel() {
-        System.out.println("\n------------ Level " + numberlevel + "------------");
+        System.out.println("\n------------ Level " + numberlevel + " ------------");
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (i == pY && j == pX) {
@@ -61,7 +74,6 @@ public class Level {
             System.out.println();
         }
         System.out.println("[Player] " + player.toString() + " | Position : [" + pX + "][" + pY + "]");
-        numberlevel++;
     }
 
     public void addObstacle(int x, int y, int obstacle_length) {
@@ -75,7 +87,7 @@ public class Level {
 
     public void movePlayer() {
         Scanner input = new Scanner(System.in);
-        System.out.println("Movement Direction (zqsd) : ");
+        System.out.print("Movement Direction (zqsd) : ");
         String direction = input.next().toLowerCase();
 
         Direction d = null;
@@ -114,32 +126,11 @@ public class Level {
 
     public static void main(String[] args) {
         Player alice = new Player("Alice");
-
         Level level1 = new Level(alice);
 
         while (true) {
             level1.generateLevel();
             level1.movePlayer();
         }
-
-
-
-
     }
 }
-
-/*
-            if (y < 0 || y >= rows || x < 0 || x >= cols) {
-                throw new RuntimeException("Error : Player out of limits");
-            }
-            if (maze[y][x] == '#') {
-                throw new RuntimeException("Error : Player can't be placed on a wall");
-            }
-            if (player == null) {
-                throw new RuntimeException("Error : no player found");
-            }
-
-            this.player = player;
-            this.pX = x;
-            this.pY = y;
-*/
