@@ -15,7 +15,7 @@ public class Level {
     private int pX;
     private int pY;
 
-    private enum Direction {
+    public enum Direction {
         UP, DOWN, LEFT, RIGHT;
     }
 
@@ -85,23 +85,7 @@ public class Level {
         }
     }
 
-    public void movePlayer() {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Movement Direction (zqsd) : ");
-        String direction = input.next().toLowerCase();
-
-        Direction d = null;
-
-        switch (direction) {
-            case "z": d = Direction.UP; break;
-            case "s": d = Direction.DOWN; break;
-            case "q": d = Direction.LEFT; break;
-            case "d": d = Direction.RIGHT; break;
-            default:
-                System.out.println("Error : Invalid direction");
-                return;
-        }
-
+    public void movePlayer(Direction d) {
         int nextX = pX;
         int nextY = pY;
 
@@ -128,9 +112,26 @@ public class Level {
         Player alice = new Player("Alice");
         Level level1 = new Level(alice);
 
+        Scanner input = new Scanner(System.in);
+
         while (true) {
             level1.generateLevel();
-            level1.movePlayer();
+
+            System.out.print("Movement Direction (zqsd) : ");
+            String key = input.next().toLowerCase();
+
+            Direction dir = null;
+            switch (key) {
+                case "z": dir = Direction.UP; break;
+                case "s": dir = Direction.DOWN; break;
+                case "q": dir = Direction.LEFT; break;
+                case "d": dir = Direction.RIGHT; break;
+                default:
+                    System.out.println("Error : Invalid direction");
+                    continue;
+            }
+
+            level1.movePlayer(dir);
         }
     }
 }
