@@ -11,7 +11,7 @@ public class Level {
     private int rows;
     private int cols;
     private static int numberlevel = 1;
-    private Player player;
+    private final Player player;
     private int pX;
     private int pY;
 
@@ -19,6 +19,10 @@ public class Level {
         UP, DOWN, LEFT, RIGHT;
     }
 
+    /**
+     * Main Constructor
+     * @param player
+     */
     public Level(Player player) {
         this.player = player;
         Path path = Path.of("Layout.txt");

@@ -96,7 +96,7 @@ public class Player {
             return false;
         }
         Player other = (Player) obj;
-        return this.name != null && this.name.equalsIgnoreCase(other.name);
+        return this.name.equalsIgnoreCase(other.name);
     }
 
     // --- Main ---
