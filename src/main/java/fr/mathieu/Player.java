@@ -8,6 +8,7 @@ public class Player {
     private final String name;
     private int score;
     private static int count = 0;
+    private int life = 5;
 
     /**
      * Constructor with name
@@ -67,22 +68,29 @@ public class Player {
 
     /**
      * Remove points from score
-     * @param points points to remove
      */
-    public void subScore(int points) {
-        this.score -= points;
+    public void subScore() {
+        this.score -= 2;
         if (this.score < 0) {
             this.score = 0;
         }
     }
 
+    public int subLife() {
+        this.life -= 2;
+        if (this.life < 0) {
+            this.life = 0;
+            return life;
+        }
+        return life;
+    }
     /**
      * Player info
      * @return String format
      */
     @Override
     public String toString() {
-        return name + " : " + score + (score > 1 ? " pts" : " pt");
+        return name + " : " + score + (score > 1 ? " pts" : " pt") + "Life : " + life;
     }
 
     /**

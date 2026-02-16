@@ -12,6 +12,7 @@ public class Level {
     private int cols;
     private static int numberlevel = 1;
     private final Player player;
+    private static int nbgold;
     private int pX;
     private int pY;
 
@@ -52,6 +53,9 @@ public class Level {
                     } else {
                         this.maze[i][j] = c;
                     }
+                    if(c == '.'){
+                        nbgold++;
+                    }
                 }
             }
 
@@ -77,7 +81,7 @@ public class Level {
             }
             System.out.println();
         }
-        System.out.println("[Player] " + player.toString() + " | Position : [" + pX + "][" + pY + "]");
+        System.out.println("[Player] " + player.toString() + " | Position : [" + pX + "][" + pY + "]\n Gold on the map : " + nbgold);
     }
 
     public void addObstacle(int x, int y, int obstacle_length) {
@@ -110,6 +114,17 @@ public class Level {
         } else {
             System.err.println("Out of boundaries of the map");
         }
+        if (maze[nextY][nextX] == '.'){
+            nbgold--;
+            player.addScore(10);
+            maze[nextY][nextX] = ' ';
+
+        }
+
+        if (maze[nextY][nextX] == '*'){
+            player.subScore();
+        }
+
     }
 
     public static void main(String[] args) {
@@ -118,7 +133,7 @@ public class Level {
 
         Scanner input = new Scanner(System.in);
 
-        while (true) {
+        while (nbgold > 0 && life != 0) {
             level1.generateLevel();
 
             System.out.print("Movement Direction (zqsd) : ");
@@ -137,5 +152,6 @@ public class Level {
 
             level1.movePlayer(dir);
         }
+        System.out.println("Level completed !");
     }
 }
