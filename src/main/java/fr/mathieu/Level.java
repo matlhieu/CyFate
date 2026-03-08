@@ -13,6 +13,8 @@ public class Level {
     private static int numberlevel = 1;
     private static Player player;
     private static int nbgold;
+    private int startpX;
+    private int startpY;
     private int pX;
     private int pY;
 
@@ -49,6 +51,8 @@ public class Level {
                     if (c == '1') {
                         this.pX = j;
                         this.pY = i;
+                        this.startpX = j;
+                        this.startpY = i;
                         this.maze[i][j] = ' ';
                         playerFound = true;
                     } else {
@@ -123,6 +127,8 @@ public class Level {
             if (maze[nextY][nextX] == '*'){
                 player.subLife();
                 maze[nextY][nextX] = ' ';
+                this.pX = startpX;
+                this.pY = startpY;
             }
         } else {
             System.err.println("Out of boundaries of the map");

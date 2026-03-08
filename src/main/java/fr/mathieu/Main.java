@@ -4,12 +4,18 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        if (args.length != 1) {
+            System.err.println("Usage: java -jar CyFate.jar <filepath>");
+            System.exit(1);
+        }
+
+        String levelFile = args[0];
         Scanner input = new Scanner(System.in);
         boolean keepPlaying = true;
 
         do {
             Player alice = new Player("Alice");
-            Level level1 = new Level(alice);
+            Level level1 = new Level(alice, levelFile);
 
             while (Level.getNbGold() > 0 && alice.getLife() > 0) {
                 level1.generateLevel();
