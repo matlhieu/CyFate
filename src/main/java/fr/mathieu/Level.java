@@ -11,7 +11,7 @@ public class Level {
     private int rows;
     private int cols;
     private static int numberlevel = 1;
-    private final Player player;
+    private static Player player;
     private static int nbgold;
     private int pX;
     private int pY;
@@ -24,9 +24,10 @@ public class Level {
      * Main Constructor
      * @param player
      */
-    public Level(Player player) {
+    public Level(Player player, String filepath) {
+        nbgold = 0;
         this.player = player;
-        Path path = Path.of("Layout.txt");
+        Path path = Path.of(filepath);
 
         try {
             List<String> lines = Files.readAllLines(path);
@@ -105,53 +106,29 @@ public class Level {
         }
 
         if (nextY >= 0 && nextY < rows && nextX >= 0 && nextX < cols) {
-            if (maze[nextY][nextX] != '#') {
-                pX = nextX;
-                pY = nextY;
-            } else {
+            if (maze[nextY][nextX] == '#') {
                 System.err.println("A wall is on the path");
+                return;
+            }
+            pX = nextX;
+            pY = nextY;
+
+            if (maze[nextY][nextX] == '.'){
+                nbgold--;
+                player.addScore(10);
+                maze[nextY][nextX] = ' ';
+
+            }
+
+            if (maze[nextY][nextX] == '*'){
+                player.subLife();
+                maze[nextY][nextX] = ' ';
             }
         } else {
             System.err.println("Out of boundaries of the map");
         }
-        if (maze[nextY][nextX] == '.'){
-            nbgold--;
-            player.addScore(10);
-            maze[nextY][nextX] = ' ';
-
-        }
-
-        if (maze[nextY][nextX] == '*'){
-            player.subScore();
-        }
-
     }
-
-    public static void main(String[] args) {
-        Player alice = new Player("Alice");
-        Level level1 = new Level(alice);
-
-        Scanner input = new Scanner(System.in);
-
-        while (nbgold > 0 && life != 0) {
-            level1.generateLevel();
-
-            System.out.print("Movement Direction (zqsd) : ");
-            String key = input.next().toLowerCase();
-
-            Direction dir = null;
-            switch (key) {
-                case "z": dir = Direction.UP; break;
-                case "s": dir = Direction.DOWN; break;
-                case "q": dir = Direction.LEFT; break;
-                case "d": dir = Direction.RIGHT; break;
-                default:
-                    System.out.println("Error : Invalid direction");
-                    continue;
-            }
-
-            level1.movePlayer(dir);
-        }
-        System.out.println("Level completed !");
+    public static int getNbGold() {
+        return nbgold;
     }
 }

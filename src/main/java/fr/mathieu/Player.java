@@ -53,6 +53,10 @@ public class Player {
         return count;
     }
 
+    public int getLife() {
+        return this.life;
+    }
+
     // --- Methods ---
 
     /**
@@ -76,13 +80,11 @@ public class Player {
         }
     }
 
-    public int subLife() {
+    public void subLife() {
         this.life -= 2;
         if (this.life < 0) {
             this.life = 0;
-            return life;
         }
-        return life;
     }
     /**
      * Player info
@@ -90,7 +92,7 @@ public class Player {
      */
     @Override
     public String toString() {
-        return name + " : " + score + (score > 1 ? " pts" : " pt") + "Life : " + life;
+        return name + " : " + score + (score > 1 ? " pts" : " pt") + " | Life : " + life;
     }
 
     /**
@@ -107,46 +109,5 @@ public class Player {
         return this.name.equalsIgnoreCase(other.name);
     }
 
-    // --- Main ---
 
-    public static void main(String[] args) {
-        System.out.println("Total created: " + Player.getCount());
-
-        Player alice = new Player("Alice");            //Create a player with name : Alice
-        Player bob = new Player("Bob");
-
-        System.out.println("Game is starting... \n");
-
-        System.out.println(alice);
-        System.out.println(bob);
-
-        System.out.println("\nModification\n");
-
-        alice.addScore(1);
-        bob.addScore(-2); // Test
-
-        System.out.println(alice);
-        System.out.println(bob);
-
-        //Level 5 Part
-        Player bobUpper = new Player("BOB");
-        Player b = bob;
-
-        System.out.println("Alice equals 'Alice' : " + alice.equals("Alice"));
-        System.out.println("Alice equals Bob : " + alice.equals(bob));
-        System.out.println("Bob equals BOB : " + bob.equals(bobUpper));
-        System.out.println("Bob == BOB : " + (bob == bobUpper));
-        System.out.println("Bob == b : " + (bob == b) + "\n");
-
-        Player p3 = new Player();
-        Player p4 = new Player();
-
-
-        System.out.println(alice);
-        System.out.println(bob);
-        System.out.println(bobUpper);
-        System.out.println(p3);
-        System.out.println(p4);
-        System.out.println("\nTotal created: " + Player.getCount());
-    }
 }
