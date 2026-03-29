@@ -21,7 +21,7 @@ test {
 jar {
     manifest {
         attributes(
-                "Main-Class": 'fr.mathieu.Level',
+                "Main-Class": 'fr.mathieu.Main',
         )
     }
 }

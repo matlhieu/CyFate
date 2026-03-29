@@ -49,12 +49,12 @@ public class Main {
                     gameBeaten = false;
                     break; // Stop progressing through levels
                 } else {
-                    System.out.println("\nNIVEAU TERMINÉ");
+                    System.out.println("\nLevel completed !");
                 }
             }
 
             if (gameBeaten) {
-                System.out.println("\nMerci d'avoir joué ! Tous les niveaux sont terminés.");
+                System.out.println("\nThanks for playing ! All levels have been completed");
                 keepPlaying = false; // Exit game
             } else {
                 System.out.println("Do you want to restart the game ? (y/n)");
