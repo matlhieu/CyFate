@@ -29,6 +29,7 @@ public class Level {
     public Level(Player player, String filepath) {
         nbgold = 0;
         this.player = player;
+        numberlevel++;
         Path path = Path.of(filepath);
 
         try {
