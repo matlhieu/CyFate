@@ -65,7 +65,6 @@ public class Main {
             }
 
         } while (keepPlaying);
-
         input.close();
     }
 }
