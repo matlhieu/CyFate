@@ -38,6 +38,9 @@ public class Cell {
         this.hasgold = getHasgold;
     }
 
+    public boolean isWalkable(){
+        return type != Type.WALL && type != Type.DOOR;
+    }
     public char getCharRepresentation(){
         if (hasgold) return '.';
         return switch (type){

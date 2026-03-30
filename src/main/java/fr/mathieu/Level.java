@@ -56,6 +56,10 @@ public class Level {
                         type = Cell.Type.WALL;
                     }
 
+                    else if (c == 'D'){
+                        type = Cell.Type.DOOR;
+                    }
+
                     else if ( c == '*'){
                         type = Cell.Type.TRAP;
                     }
@@ -114,8 +118,8 @@ public class Level {
 
         if (nextY >= 0 && nextY < rows && nextX >= 0 && nextX < cols) {
             Cell target = grid[nextY][nextX];
-            if (target.getType() == Cell.Type.WALL) {
-                System.err.println("A wall is on the path");
+            if (target.isWalkable()) {
+                System.err.println("The path is blocked !");
                 return;
             }
             pX = nextX;
@@ -132,9 +136,7 @@ public class Level {
                 this.pX = startpX;
                 this.pY = startpY;
             }
-            if (target.getType() == Cell.Type.DOOR) {
-                System.err.println("This door is closed");
-            }
+
         } else {
             System.err.println("Out of boundaries of the map");
         }
