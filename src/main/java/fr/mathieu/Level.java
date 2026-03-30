@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Files;
 
 public class Level {
-    private char[][] maze;
+    private Cell[][] grid;
     private int rows;
     private int cols;
     private static int numberlevel = 1;
@@ -38,7 +38,7 @@ public class Level {
             if (lines.isEmpty()) throw new RuntimeException("File is empty");
             this.rows = lines.size();
             this.cols = lines.get(0).length();
-            this.maze = new char[rows][cols];
+            this.grid = new Cell[rows][cols];
 
             boolean playerFound = false;
 
@@ -49,19 +49,30 @@ public class Level {
                 for (int j = 0; j < cols; j++) {
                     char c = (j < limit) ? line.charAt(j) : ' ';
 
-                    if (c == '1') {
+                    Cell.Type type = Cell.Type.EMPTY;
+                    boolean gold = false;
+
+                    if (c =='#'){
+                        type = Cell.Type.WALL;
+                    }
+
+                    else if ( c == '*'){
+                        type = Cell.Type.TRAP;
+                    }
+
+                    else if (c == '.'){
+                        gold = true;
+                        nbgold++;
+                    }
+
+                    else if (c == '1') {
                         this.pX = j;
                         this.pY = i;
                         this.startpX = j;
                         this.startpY = i;
-                        this.maze[i][j] = ' ';
                         playerFound = true;
-                    } else {
-                        this.maze[i][j] = c;
                     }
-                    if(c == '.'){
-                        nbgold++;
-                    }
+                    this.grid[i][j] = new Cell(i, j, type, gold);
                 }
             }
 
@@ -82,21 +93,12 @@ public class Level {
                 if (i == pY && j == pX) {
                     System.out.print("1 ");
                 } else {
-                    System.out.print(maze[i][j] + " ");
+                    System.out.print(grid[i][j].getCharRepresentation() + " ");
                 }
             }
             System.out.println();
         }
         System.out.println("[Player] " + player.toString() + " | Position : [" + pX + "][" + pY + "]\n Gold on the map : " + nbgold);
-    }
-
-    public void addObstacle(int x, int y, int obstacle_length) {
-        for (int i = 0; i < obstacle_length; i++) {
-            if ((y > 0 && y < rows - 1 && x > 0 && x < cols - 1) && !(x == pX && y == pY)) {
-                maze[y][x] = '#';
-            }
-            y++;
-        }
     }
 
     public void movePlayer(Direction d) {
@@ -111,23 +113,22 @@ public class Level {
         }
 
         if (nextY >= 0 && nextY < rows && nextX >= 0 && nextX < cols) {
-            if (maze[nextY][nextX] == '#') {
+            Cell target = grid[nextY][nextX];
+            if (target.getType() == Cell.Type.WALL) {
                 System.err.println("A wall is on the path");
                 return;
             }
             pX = nextX;
             pY = nextY;
 
-            if (maze[nextY][nextX] == '.'){
+            if (target.getHasgold()){
                 nbgold--;
                 player.addScore(10);
-                maze[nextY][nextX] = ' ';
-
+                target.setHasgold(false);
             }
 
-            if (maze[nextY][nextX] == '*'){
+            if (target.getType() == Cell.Type.TRAP) {
                 player.subLife();
-                maze[nextY][nextX] = ' ';
                 this.pX = startpX;
                 this.pY = startpY;
             }
