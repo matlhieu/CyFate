@@ -2,7 +2,7 @@ package fr.mathieu;
 
 public class Cell {
     public enum Type{
-        TRAP, WALL, EMPTY;
+        TRAP, WALL, DOOR, EMPTY;
     }
 
     private int row;
@@ -43,6 +43,7 @@ public class Cell {
         return switch (type){
             case TRAP -> '*';
             case WALL -> '#';
+            case DOOR -> 'D';
             default -> ' ';
         };
     }

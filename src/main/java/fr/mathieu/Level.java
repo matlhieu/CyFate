@@ -132,6 +132,9 @@ public class Level {
                 this.pX = startpX;
                 this.pY = startpY;
             }
+            if (target.getType() == Cell.Type.DOOR) {
+                System.err.println("This door is closed");
+            }
         } else {
             System.err.println("Out of boundaries of the map");
         }
