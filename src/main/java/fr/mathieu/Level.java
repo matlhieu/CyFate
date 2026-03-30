@@ -2,7 +2,6 @@ package fr.mathieu;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Scanner;
 import java.nio.file.Path;
 import java.nio.file.Files;
 
@@ -22,20 +21,15 @@ public class Level {
         UP, DOWN, LEFT, RIGHT;
     }
 
-    /**
-     * Main Constructor
-     * @param player
-     */
     public Level(Player player, String filepath) {
         nbgold = 0;
-        this.player = player;
-        numberlevel++;
+        Level.player = player;
         Path path = Path.of(filepath);
 
         try {
             List<String> lines = Files.readAllLines(path);
-
             if (lines.isEmpty()) throw new RuntimeException("File is empty");
+
             this.rows = lines.size();
             this.cols = lines.get(0).length();
             this.grid = new Cell[rows][cols];
@@ -52,39 +46,28 @@ public class Level {
                     Cell.Type type = Cell.Type.EMPTY;
                     boolean gold = false;
 
-                    if (c =='#'){
-                        type = Cell.Type.WALL;
-                    }
-
-                    else if (c == 'D'){
-                        type = Cell.Type.DOOR;
-                    }
-
-                    else if ( c == '*'){
-                        type = Cell.Type.TRAP;
-                    }
-
-                    else if (c == '.'){
+                    if (c == '#') { type = Cell.Type.WALL; }
+                    if (c == '*') { type = Cell.Type.TRAP; }
+                    if (c == 'D') { type = Cell.Type.DOOR; }
+                    if (c == '.') {
                         gold = true;
                         nbgold++;
                     }
-
-                    else if (c == '1') {
+                    if (c == '1') {
                         this.pX = j;
                         this.pY = i;
                         this.startpX = j;
                         this.startpY = i;
                         playerFound = true;
                     }
+
                     this.grid[i][j] = new Cell(i, j, type, gold);
                 }
             }
 
-            if (!playerFound) {
-                throw new RuntimeException("Player not found in the file");
-            }
+            if (!playerFound) { throw new RuntimeException("Player not found"); }
 
-        } catch (IOException e){
+        } catch (IOException e) {
             System.err.println("Error reading file : " + e.getMessage());
             System.exit(1);
         }
@@ -102,7 +85,7 @@ public class Level {
             }
             System.out.println();
         }
-        System.out.println("[Player] " + player.toString() + " | Position : [" + pX + "][" + pY + "]\n Gold on the map : " + nbgold);
+        System.out.println("[Player] " + player.toString() + " | Gold : " + nbgold);
     }
 
     public void movePlayer(Direction d) {
@@ -116,32 +99,46 @@ public class Level {
             case RIGHT: nextX += 1; break;
         }
 
-        if (nextY >= 0 && nextY < rows && nextX >= 0 && nextX < cols) {
-            Cell target = grid[nextY][nextX];
-            if (target.isWalkable()) {
-                System.err.println("The path is blocked !");
-                return;
-            }
-            pX = nextX;
-            pY = nextY;
+        // Logic Torique (Wrap-around)
+        if (nextX < 0) {
+            nextX = cols - 1;
+        }
+        if (nextX >= cols) {
+            nextX = 0;
+        }
+        if (nextY < 0) {
+            nextY = rows - 1;
+        }
+        if (nextY >= rows) {
+            nextY = 0;
+        }
 
-            if (target.getHasgold()){
-                nbgold--;
-                player.addScore(10);
-                target.setHasgold(false);
-            }
+        Cell target = grid[nextY][nextX];
 
-            if (target.getType() == Cell.Type.TRAP) {
-                player.subLife();
-                this.pX = startpX;
-                this.pY = startpY;
-            }
+        if (!target.isWalkable()) {
+            System.err.println("The path is blocked !");
+            return;
+        }
 
-        } else {
-            System.err.println("Out of boundaries of the map");
+        pX = nextX;
+        pY = nextY;
+
+        if (target.getHasGold()) {
+            nbgold--;
+            player.addScore(10);
+            target.setHasGold(false);
+        }
+
+        if (target.getType() == Cell.Type.TRAP) {
+            player.subLife();
+            pX = startpX;
+            pY = startpY;
         }
     }
-    public static int getNbGold() {
-        return nbgold;
-    }
+
+    public static int getNbGold() { return nbgold; }
+
+    public static void nextLevel() { numberlevel++; }
+
+    public static void resetLevelCount() { numberlevel = 1; }
 }

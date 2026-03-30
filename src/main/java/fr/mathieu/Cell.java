@@ -8,13 +8,13 @@ public class Cell {
     private int row;
     private int col;
     private Type type;
-    private boolean hasgold;
+    private boolean hasGold;
 
     public Cell(int row, int col, Type type, boolean hasgold) {
         this.row = row;
         this.col = col;
         this.type = type;
-        this.hasgold = hasgold;
+        this.hasGold = hasgold;
     }
 
     //Getters et Setters
@@ -33,16 +33,16 @@ public class Cell {
     }
     public void setType(Type type) {this.type = type;}
 
-    public boolean getHasgold() {return hasgold;}
-    public void setHasgold (boolean getHasgold) {
-        this.hasgold = getHasgold;
+    public boolean getHasGold() {return hasGold;}
+    public void setHasGold (boolean getHasGold) {
+        this.hasGold = getHasGold;
     }
 
     public boolean isWalkable(){
         return type != Type.WALL && type != Type.DOOR;
     }
     public char getCharRepresentation(){
-        if (hasgold) return '.';
+        if (hasGold) return '.';
         return switch (type){
             case TRAP -> '*';
             case WALL -> '#';
