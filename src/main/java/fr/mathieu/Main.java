@@ -17,12 +17,14 @@ public class Main {
 
         do {
             // Instantiate player once per session
+            Level.resetLevelCount();
             Player player = new Player(playerName);
             boolean gameBeaten = true;
 
             for (int i = 0; i < args.length; i++) {
                 String levelFile = args[i];
                 Level currentLevel = new Level(player, levelFile);
+                Level.nextLevel();
 
                 while (Level.getNbGold() > 0 && player.getLife() > 0) {
                     currentLevel.generateLevel();
