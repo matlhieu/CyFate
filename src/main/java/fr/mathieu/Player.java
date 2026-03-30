@@ -87,8 +87,8 @@ public class Player {
         }
     }
     /**
-     * Player info
-     * @return String format
+     * Player info in text format
+     * @return Formatted string with name, score and life
      */
     @Override
     public String toString() {

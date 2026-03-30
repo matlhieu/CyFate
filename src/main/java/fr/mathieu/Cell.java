@@ -1,7 +1,14 @@
 package fr.mathieu;
 
+/**
+ * Represents a single grid cell
+ */
 public class Cell {
-    public enum Type{
+
+    /**
+     * Cell possible types
+     */
+    public enum Type {
         TRAP, WALL, DOOR, EMPTY;
     }
 
@@ -10,46 +17,79 @@ public class Cell {
     private Type type;
     private boolean hasGold;
 
-    public Cell(int row, int col, Type type, boolean hasgold) {
+    // --- Constructor ---
+
+    /**
+     * Full constructor
+     * @param row position
+     * @param col position
+     * @param type cell nature
+     * @param hasGold presence of item
+     */
+    public Cell(int row, int col, Type type, boolean hasGold) {
         this.row = row;
         this.col = col;
         this.type = type;
-        this.hasGold = hasgold;
+        this.hasGold = hasGold;
     }
 
-    //Getters et Setters
-    public int getRow() {
-        return row;
-    }
-    public void setRow(int row) {this.row = row;}
+    // --- Getters ---
 
-    public int getCol() {
-        return col;
-    }
-    public void setCol(int col) {this.col = col;}
-
+    /**
+     * Get cell type
+     * @return Type enum
+     */
     public Type getType() {
         return type;
     }
-    public void setType(Type type) {this.type = type;}
 
-    public boolean getHasGold() {return hasGold;}
-    public void setHasGold (boolean getHasGold) {
-        this.hasGold = getHasGold;
+    /**
+     * Check if gold is present
+     * @return true if gold exists
+     */
+    public boolean getHasGold() {
+        return hasGold;
     }
 
-    public boolean isWalkable(){
+    /**
+     * Check if player can walk on it
+     * @return true if not a wall or door
+     */
+    public boolean isWalkable() {
         return type != Type.WALL && type != Type.DOOR;
     }
-    public char getCharRepresentation(){
+
+    // --- Setters ---
+
+    /**
+     * Update cell type
+     * @param type new type
+     */
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    /**
+     * Update gold status
+     * @param hasGold new status
+     */
+    public void setHasGold(boolean hasGold) {
+        this.hasGold = hasGold;
+    }
+
+    // --- Methods ---
+
+    /**
+     * Visual representation
+     * @return char symbol
+     */
+    public char getCharRepresentation() {
         if (hasGold) return '.';
-        return switch (type){
+        return switch (type) {
             case TRAP -> '*';
             case WALL -> '#';
             case DOOR -> 'D';
             default -> ' ';
         };
     }
-
-
 }

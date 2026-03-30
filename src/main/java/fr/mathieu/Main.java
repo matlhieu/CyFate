@@ -2,7 +2,17 @@ package fr.mathieu;
 
 import java.util.Scanner;
 
+/**
+ * Application entry point
+ */
 public class Main {
+
+    // --- Main ---
+
+    /**
+     * Game loop controller
+     * @param args Level files
+     */
     public static void main(String[] args) {
         if (args.length == 0) {
             System.err.println("Usage: java -jar CyFate.jar <level1.txt> [level2.txt...]");
@@ -16,7 +26,6 @@ public class Main {
         String playerName = input.next();
 
         do {
-            // Instantiate player once per session
             Level.resetLevelCount();
             Player player = new Player(playerName);
             boolean gameBeaten = true;
@@ -28,7 +37,6 @@ public class Main {
 
                 while (Level.getNbGold() > 0 && player.getLife() > 0) {
                     currentLevel.generateLevel();
-
                     System.out.print("Movement Direction (zqsd) : ");
                     String key = input.next().toLowerCase();
 
@@ -38,18 +46,15 @@ public class Main {
                         case "s": dir = Level.Direction.DOWN; break;
                         case "q": dir = Level.Direction.LEFT; break;
                         case "d": dir = Level.Direction.RIGHT; break;
-                        default:
-                            System.out.println("Error : Invalid direction");
-                            continue;
+                        default: continue;
                     }
-
                     currentLevel.movePlayer(dir);
                 }
 
                 if (player.getLife() <= 0) {
                     System.out.println("\nGAME OVER");
                     gameBeaten = false;
-                    break; // Stop progressing through levels
+                    break;
                 } else {
                     System.out.println("\nLevel completed !");
                 }
@@ -57,7 +62,7 @@ public class Main {
 
             if (gameBeaten) {
                 System.out.println("\nThanks for playing ! All levels have been completed");
-                keepPlaying = false; // Exit game
+                keepPlaying = false;
             } else {
                 System.out.println("Do you want to restart the game ? (y/n)");
                 String answer = input.next().toLowerCase();
@@ -65,7 +70,6 @@ public class Main {
                     keepPlaying = false;
                 }
             }
-
         } while (keepPlaying);
         input.close();
     }
