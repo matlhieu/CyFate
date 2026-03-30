@@ -130,6 +130,7 @@ public class Level {
         }
 
         if (target.getType() == Cell.Type.TRAP) {
+            target.setType(Cell.Type.EMPTY);
             player.subLife();
             pX = startpX;
             pY = startpY;
@@ -140,5 +141,5 @@ public class Level {
 
     public static void nextLevel() { numberlevel++; }
 
-    public static void resetLevelCount() { numberlevel = 1; }
+    public static void resetLevelCount() { numberlevel = 0; }
 }
