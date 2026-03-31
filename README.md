@@ -5,4 +5,4 @@ Game in Java
 - Goal is to collect gold "." while avoiding traps "*"
 - 5 lives no more no less
 
-GLHF ! 
+GLHF 
